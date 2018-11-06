@@ -7,23 +7,35 @@ import firebase from 'firebase';
 import { TabsPage } from "../pages/tabs/tabs";
 import { SigninPage } from "../pages/signin/signin";
 import { SignupPage } from "../pages/signup/signup";
+import { AuthService } from '../services/auth';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  tabsPage:any = TabsPage;
+  rootPage:any = TabsPage;
   signinPage:any = SigninPage;
   signupPage:any = SignupPage;
+  isAuthenticated = false;
   @ViewChild('nav') nav: NavController;
 
   constructor(platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private authService: AuthService) {
     firebase.initializeApp({
-      apiKey: "AIzaSyBvi8U71CozvR9ATNUiX8t5EnkYaTawH1M",
-      authDomain: "ionic2-recipebook-e5e0e.firebaseapp.com"
+      apiKey: "AIzaSyCYjMVA9IUkHdOn4IaS9bXrjgGCh_W61Z8",
+      authDomain: "joergs-recipe-book.firebaseapp.com"
+    });
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        this.isAuthenticated = true;
+        this.rootPage = TabsPage;
+      } else {
+        this.isAuthenticated = false;
+        this.rootPage = SigninPage;
+      }
     });
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -39,7 +51,9 @@ export class MyApp {
   }
 
   onLogout() {
-    
+    this.authService.logout();
+    this.menuCtrl.close();
+    this.nav.setRoot(SigninPage);
   }
 }
 
