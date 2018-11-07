@@ -4,6 +4,7 @@
 *~
 *.sw[mnpcod]
 *.log
+main.js.map
 *.tmp
 *.tmp.*
 log.txt
