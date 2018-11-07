@@ -25,8 +25,7 @@ export class MyApp {
     private menuCtrl: MenuController,
     private authService: AuthService) {
     firebase.initializeApp({
-      apiKey: "AIzaSyCYjMVA9IUkHdOn4IaS9bXrjgGCh_W61Z8",
-      authDomain: "joergs-recipe-book.firebaseapp.com"
+      // TODO: add APIKey and authDomain from Firestore here
     });
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
